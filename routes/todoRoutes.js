@@ -9,21 +9,43 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const newTodo = new Todo({ text: req.body.text });
-  const saved = await newTodo.save();
-  res.json(saved);
+  try {
+    const newTodo = new Todo({
+      text: req.body.text,
+    });
+
+    const saved = await newTodo.save();
+    res.status(201).json(saved);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create todo" });
+  }
 });
 
 router.patch("/:id", async (req, res) => {
-  const todo = await Todo.findById(req.params.id);
-  todo.completed = !todo.completed;
-  await todo.save();
-  res.json(todo);
+  try {
+    const todo = await Todo.findById(req.params.id);
+
+    if (!todo) {
+      return res.status(404).json({ error: "Todo not found" });
+    }
+
+    todo.completed = !todo.completed;
+    todo.completedAt = todo.completed ? new Date() : null;
+
+    await todo.save();
+    res.json(todo);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update todo" });
+  }
 });
 
 router.delete("/:id", async (req, res) => {
-  await Todo.findByIdAndDelete(req.params.id);
-  res.json({ message: "Deleted successfully" });
+  try {
+    await Todo.findByIdAndDelete(req.params.id);
+    res.json({ message: "Deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete todo" });
+  }
 });
 
 module.exports = router;
