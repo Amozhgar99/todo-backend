@@ -7,18 +7,18 @@ const todoRoutes = require("./routes/todoRoutes");
 
 const app = express();
 
-// ✅ Middleware
+// Middleware
 app.use(cors({
-  origin: "*",   // allow all origins (or replace "*" with your frontend URL later for security)
+  origin: "*",
   methods: ["GET", "POST", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type"],
 }));
 app.use(express.json());
 
-// ✅ Routes
+// Routes
 app.use("/api/todos", todoRoutes);
 
-// ✅ MongoDB connection
+// MongoDB connection
 mongoose
   .connect(process.env.mongoURI)
   .then(() => console.log("✅ MongoDB connected"))
@@ -27,7 +27,7 @@ mongoose
     process.exit(1);
   });
 
-// ✅ Start server
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV || "development"} mode`);
