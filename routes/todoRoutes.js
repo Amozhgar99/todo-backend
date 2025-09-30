@@ -1,19 +1,20 @@
 const express = require("express");
 const Todo = require("../models/Todo");
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  const todos = await Todo.find();
+router.get("/", auth, async (req, res) => {
+  const todos = await Todo.find({ user: req.user });
   res.json(todos);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const newTodo = new Todo({
       text: req.body.text,
+      user: req.user,
     });
-
     const saved = await newTodo.save();
     res.status(201).json(saved);
   } catch (error) {
