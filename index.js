@@ -9,9 +9,10 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: "*",
+  origin: "https://todo-app-amozhgar.netlify.app",
   methods: ["GET", "POST", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type" , "Authorization"],
+  credentials: true
 }));
 app.use(express.json());
 
