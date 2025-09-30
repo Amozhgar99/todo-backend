@@ -28,6 +28,8 @@ router.patch("/:id", auth, async (req, res) => {
   if (!todo) return res.status(404).json({ error: "Todo not found" });
 
   todo.completed = !todo.completed;
+  todo.completedAt = todo.completed ? new Date() : null;
+
   await todo.save();
   res.json(todo);
 });
