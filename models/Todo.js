@@ -5,6 +5,7 @@ const TodoSchema = new mongoose.Schema({
   completed: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   completedAt: { type: Date, default: null },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
 
 module.exports = mongoose.model("Todo", TodoSchema);
