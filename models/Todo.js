@@ -7,7 +7,7 @@ const todoSchema = new mongoose.Schema(
     completedAt: { type: Date, default: null },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
-  { timestamps: true } // adds createdAt and updatedAt
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Todo", todoSchema);
